@@ -38,3 +38,28 @@ const pablo = new Student(
     "create of players"
   ],
 );
+
+//prototypes with  class syntax
+class StudentOne {
+  constructor({
+    age, 
+    approvedCourses = [],
+    email,
+    name, 
+  }) {
+    this.name = name;
+    this.age = age;
+    this.approvedCourses = approvedCourses;
+    this.email = email;
+  }
+
+  passCourse(course) {
+    this.approvedCourses.push(course);
+  }
+}
+
+const miguel = new StudentOne( {
+  name: "miguel",
+  age: 23,
+  email: "miguel@mail.com",
+} )
