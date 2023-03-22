@@ -62,4 +62,4 @@ const miguel = new StudentOne( {
   name: "miguel",
   age: 23,
   email: "miguel@mail.com",
-} )
+} );
