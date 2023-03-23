@@ -15,8 +15,19 @@ class Course {
     name,
     classes = [],
   }) {
-    this,name = name;
+    this,_name = name;
     this,classes = classes;
+  }
+  
+  get name() {
+    return this._name;
+  }
+  set name(newName) {
+    if (newName === "bad course") {
+      console.error("Web... no");
+    } else {
+      this._name = newName;
+    }
   }
 }
 
