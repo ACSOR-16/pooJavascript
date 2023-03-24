@@ -14,9 +14,13 @@ class Course {
   constructor ({
     name,
     classes = [],
+    isFree = false,
+    language = "spanish",
   }) {
-    this,_name = name;
+    this,name = name;
     this,classes = classes;
+    this.isFree = isFree;
+    this.language = language;
   }
   
   get name() {
@@ -36,10 +40,13 @@ class Course {
 const progBasicCourse = new Course({
   name: "Basic programming Course",
   classes: [],
+  isFree: true,
+
 });
 const htmlCssCourse = new Course({
   name: "Basic HTML and CSS course",
   classes: [],
+  language: "english",
 });
 const basicJavascriptCourse = new Course({
   name: "Basic Javascript course",
@@ -124,8 +131,47 @@ class OneApprentice {
   }
 }
 
+class FreeStudent extends OneApprentice {
+  constructor(properties) {
+    super(properties);
+  }  
+
+  approvedCoursesFinish(newCourse) {
+    if(newCourse.isFree)  {
+      this.approvedCourse.push(newCourse);
+    } else {
+      console.log(`Sorry ${this.name} not available`);
+    }
+  }
+}
+
+class BasicStudent extends OneApprentice {
+  constructor(properties) {
+    super(properties);
+  }
+
+  approvedCoursesFinish(newCourse) {
+    if(newCourse.language !== "english")  {
+      this.approvedCourse.push(newCourse);
+    } else {
+      console.log(`Sorry ${this.name} not available, in english`);
+    }
+  }
+}
+
+class ExpertStudent extends OneApprentice { 
+  constructor(properties) {
+    super(properties);
+  }
+
+  approvedCoursesFinish(newCourse) {
+    this.approvedCourse.push(newCourse);
+  }
+}
+
+
 // instance of students \ oneApprentice
-const oscar = new OneApprentice({
+const oscar = new BasicStudent({
   name: "oscar",
   email: "oscar@gmail.com",
   userName: "oscarTra",
@@ -135,7 +181,7 @@ const oscar = new OneApprentice({
   ],
 });
 
-const jef = new OneApprentice({
+const jef = new FreeStudent-({
   name: "jefferson",
   email: "jef@gmail.com",
   userName: "jeffersonXD",
