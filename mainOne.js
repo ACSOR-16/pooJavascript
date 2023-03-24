@@ -1,11 +1,33 @@
+class Comment {
+  constructor({
+    content,
+    studentName,
+    studentRole = "students",
+  }) {
+    this.content = content;
+    this.studentName = studentName;
+    this.studentRole = studentRole;
+    this.likes = 0;
+  }
+
+  post() {
+    console.log(`${this.studentName} ( ${this.studentRole} )`);
+    console.log(`${this.likes} likes`);
+    console.log(this.content);
+  }
+
+}
+
+
+
 // class classes \ constructor
 class ClassesOfCourse {
   constructor ({
     name,
     classes = [],
   }) {
-    this,name = name;
-    this,classes = classes;
+    this.name = name;
+    this.classes = classes;
   }
 }
 
@@ -17,8 +39,8 @@ class Course {
     isFree = false,
     language = "spanish",
   }) {
-    this,name = name;
-    this,classes = classes;
+    this._name = name;
+    this.classes = classes;
     this.isFree = isFree;
     this.language = language;
   }
@@ -41,29 +63,34 @@ const progBasicCourse = new Course({
   name: "Basic programming Course",
   classes: [],
   isFree: true,
-
 });
+
 const htmlCssCourse = new Course({
   name: "Basic HTML and CSS course",
   classes: [],
   language: "english",
 });
+
 const basicJavascriptCourse = new Course({
   name: "Basic Javascript course",
   classes: [],
 });
+
 const animationCourse = new Course({
   name: "Animation course",
   classes: [],
 });
+
 const userExperience = new Course({
   name: "User Experience course",
   classes: [],
 });
+
 const dataBusinessCourse = new Course({
   name: "Data Business course",
   classes: [],
 });
+
 const dataBasesCourse = new Course({
   name: "Data bases course",
   classes: [],
@@ -89,6 +116,7 @@ const webSchool = new LearningPath({
     htmlCssCourse,
   ],
 });
+
 const designSchool = new LearningPath({
   name: "Design School",
   courses: [
@@ -97,6 +125,7 @@ const designSchool = new LearningPath({
     userExperience,
   ],
 });
+
 const dataSchool = new LearningPath({
   name: "Data Science School",
   courses: [
@@ -128,6 +157,14 @@ class OneApprentice {
     };
     this.approvedCourse = approvedCourse;
     this.learningPaths = learningPaths;
+  }
+
+  commentPost(commentContent) {
+    const comment = new Comment({
+      content: commentContent,
+      studentName: this.name,
+    });
+    comment.post();
   }
 }
 
@@ -169,6 +206,24 @@ class ExpertStudent extends OneApprentice {
   }
 }
 
+class TeacherStudent extends OneApprentice { 
+  constructor(properties) {
+    super(properties);
+  }
+
+  approvedCoursesFinish(newCourse) {
+    this.approvedCourse.push(newCourse);
+  }
+
+  commentPost(commentContent) {
+    const comment = new Comment({
+      content: commentContent,
+      studentName: this.name,
+      studentRole: "teacher"
+    });
+    comment.post();
+  }
+}
 
 // instance of students \ oneApprentice
 const oscar = new BasicStudent({
@@ -181,7 +236,7 @@ const oscar = new BasicStudent({
   ],
 });
 
-const jef = new FreeStudent-({
+const jef = new FreeStudent({
   name: "jefferson",
   email: "jef@gmail.com",
   userName: "jeffersonXD",
@@ -189,4 +244,10 @@ const jef = new FreeStudent-({
     webSchool,
     designSchool,
   ],
+});
+
+const freddy = new TeacherStudent({
+  name: "Freddy Vega ",
+  email: "freddy@gmail.com",
+  userName: "Fred",
 });
