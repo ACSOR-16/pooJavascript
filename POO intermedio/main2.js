@@ -215,116 +215,169 @@ function createStudent({
 }
 
 // FUNCTION CREATE LEARNING PATHS
-function createLearningPath({
+function LearningPath({
   name = requiredParams("name"),
   courses = []
 }) {
-  const private = {
-    "_name": name,
-    "_courses": courses
-  };
 
-  const public = {
+  this.name = name;
+  this.courses = courses;
+  // const private = {
+  //   "_name": name,
+  //   "_courses": courses
+  // };
 
-    get name() {
-      return private["_name"];
-    },
+  // const public = {
 
-    set name(newName) {
-      if (newName.length !== 0) {
-        private["_name"] = newName;
-      } else {
-        console.warn("your name must have at lasted one character");
-      }
-    },
+  //   get name() {
+  //     return private["_name"];
+  //   },
 
-    get courses() {
-      return private["_courses"]
-    }
+  //   set name(newName) {
+  //     if (newName.length !== 0) {
+  //       private["_name"] = newName;
+  //     } else {
+  //       console.warn("your name must have at lasted one character");
+  //     }
+  //   },
 
-  };
-  return public;
+  //   get courses() {
+  //     return private["_courses"]
+  //   }
+
+  // };
+  // return public;
   
 }
 
 // GETTERS AND SETTERS
-function createStudent({
+function Student({
   name = requiredParams(" name "),
   email = requiredParams(" email "),
   age,
-  approvedCourses = [],
   learningPaths = [],
+  approvedCourses = [],
   twitter,
   instagram,
   github
 } = {}) {
 
-  const privateAttributes = {
-    "_name": name,
-    "_email": email,
-    "_learningPaths": learningPaths
-  };
+  this.name = name;
+  this.email = email;
+  this.age = age;
+  this.approvedCourses = approvedCourses;
+  this.socialMedia = {
+    twitter,
+    instagram,
+    github
+  }
+  
+  const private = {
+    "_learningPaths": []
+  }
 
-  const publicAttributes = {
-    age,
-    approvedCourses,
-    learningPaths,
-    socialMedia: {
-      twitter,
-      instagram,
-      github
+  Object.defineProperty(this, "learningPaths", {
+    get() {
+      return private["_learningPaths"];
     },
-
-    //METHODS
-    get name() {
-      return privateAttributes["_name"];
-    },
-    set name(newName) {
-      if (newName.length !== 0) {
-        privateAttributes["_name"] = newName;
+    set(newLP) {
+      if (newLP instanceof LearningPath) {
+        private["_learningPaths"].push(newLP);
       } else {
-        console.warn("your name must have at least one character");
+        console.warn("Some of the LPs has no instance from LearningPath");
       }
-    },
-
-    get email() {
-      return privateAttributes["_email"];
-    },
-    set email(newEmail) {
-      if (newEmail.length !== 0) {
-        privateAttributes["_email"] = newEmail;
-      } else {
-        console.warn("your name must have at least one character");
-      }
-    },
-
-    get learningPaths() {
-      return privateAttributes["_learningPaths"];
-    },
-    set learningPaths(newLP) {
-      if (!newEmail.name) {
-        console.warn("your LP hasn't the property name");
-        return;
-      } 
-      
-      if (!newLP.courses) {
-        console.warn("your LP hasn't courses");
-        return;
-      }
-      
-      if (!isArray(newLP.courses)) {
-        console.warn("Tu LP has no array (*of courses)");
-        return;
-      }
-      
-      privateAttributes["_learningPaths"].push(newLP);
     }
-  };
+    
+  });
+  
+  for (learningPathIndex in learningPaths) {
+    this.learningPaths = learningPaths[learningPathIndex];
+  }
 
-  return publicAttributes;
+  // const privateAttributes = {
+  //   "_name": name,
+  //   "_email": email,
+  //   "_learningPaths": learningPaths
+  // };
+
+  // const publicAttributes = {
+  //   age,
+  //   approvedCourses,
+  //   learningPaths,
+  //   socialMedia: {
+  //     twitter,
+  //     instagram,
+  //     github
+  //   },
+
+  //   //METHODS
+  //   get name() {
+  //     return privateAttributes["_name"];
+  //   },
+  //   set name(newName) {
+  //     if (newName.length !== 0) {
+  //       privateAttributes["_name"] = newName;
+  //     } else {
+  //       console.warn("your name must have at least one character");
+  //     }
+  //   },
+
+  //   get email() {
+  //     return privateAttributes["_email"];
+  //   },
+  //   set email(newEmail) {
+  //     if (newEmail.length !== 0) {
+  //       privateAttributes["_email"] = newEmail;
+  //     } else {
+  //       console.warn("your name must have at least one character");
+  //     }
+  //   },
+
+  //   get learningPaths() {
+  //     return privateAttributes["_learningPaths"];
+  //   },
+  //   set learningPaths(newLP) {
+  //     if (!newEmail.name) {
+  //       console.warn("your LP hasn't the property name");
+  //       return;
+  //     } 
+      
+  //     if (!newLP.courses) {
+  //       console.warn("your LP hasn't courses");
+  //       return;
+  //     }
+      
+  //     if (!isArray(newLP.courses)) {
+  //       console.warn("Tu LP has no array (*of courses)");
+  //       return;
+  //     }
+
+  //     privateAttributes["_learningPaths"].push(newLP);
+  //   }
+  // };
+
+  // return publicAttributes;
 
 }
 
-const juan = createStudent({email: "juan@juan.com", name: "Juan"})
+const webSchool = new LearningPath({
+	name:"WebDev"
+});
+const dataSchool = new LearningPath({
+	name:"Data Science"
+});
 
-juan.learningPaths = "New learning path"
+
+const juan = new Student({
+	email:"juanito@frijoles.co",
+	name:"Juan",
+	learningPaths:[
+	  webSchool,
+		dataSchool,
+		{
+			name: "Imposter school"
+		}
+	]
+});
+
+console.log(juan.learningPaths);
