@@ -147,3 +147,69 @@ function createStudent({
 //   },
 // });
 
+function createStudent({
+  name = requiredParams(" name "),
+  email = requiredParams(" email "),
+  age,
+  approvedCourses = [],
+  learningPaths = [],
+  twitter,
+  instagram,
+  github
+} = {}) {
+
+  const privateAttributes = {
+    "_name": name,
+    "_email": email
+  };
+
+  const publicAttributes = {
+    age,
+    approvedCourses,
+    learningPaths,
+    socialMedia: {
+      twitter,
+      instagram,
+      github
+    },
+
+    //METHODS
+    readName() {
+      return privateAttributes["_name"];
+    },
+
+    changeName(newName) {
+      privateAttributes["_name"] = newName;
+    },
+
+    readEmail() {
+      return privateAttributes["_email"];
+    },
+
+    changeEmail(newEmail) {
+      privateAttributes["_email"] = newEmail;
+    }
+  };
+
+  //PROTECTED METHODS
+  Object.defineProperty(publicAttributes, "readName", {
+    writable: false,
+    configurable: false,
+  });
+  Object.defineProperty(publicAttributes, "changeName", {
+    writable: false,
+    configurable: false,
+  });
+
+  Object.defineProperty(publicAttributes, "readEmail", {
+    writable: false,
+    configurable: false,
+  });
+  Object.defineProperty(publicAttributes, "changeEmail", {
+    writable: false,
+    configurable: false,
+  });
+
+  return publicAttributes;
+
+}
