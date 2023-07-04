@@ -67,7 +67,7 @@ function deepCopy(subject) {
 
   for (const key of subject) {
     const keyIsObject = isObject(subject[key]);
-    
+
     if (keyIsObject) {
       copySubject[key] = deepCopy(subject[key]);
 
@@ -82,3 +82,68 @@ function deepCopy(subject) {
    
   return subject;
 }
+
+const studentBase = {
+  name: undefined,
+  email: undefined,
+  age: undefined,
+  approvedCourses: undefined,
+  learningPaths: undefined,
+  socialMedia: {
+    twitter: undefined,
+    instagram: undefined,
+    github: undefined
+  },
+};
+
+const oscar = deepCopy(studentBase);
+Object.seal(oscar);
+// check is seal (configurable: false)
+Object.isSealed(oscar);
+
+// check is seal (configurable: false, writable: false)
+Object.isFrozen(oscar);
+
+
+// FACTORY PATTERN
+function requiredParams(params) {
+  throw new Error(params + " is Required");
+}
+
+function createStudent({
+  name = requiredParams(" name "),
+  email = requiredParams(" email "),
+  age,
+  approvedCourses = [],
+  learningPaths = [],
+  twitter,
+  instagram,
+  github
+} = {}) {
+  return {
+    name,
+    email,
+    age,
+    approvedCourses,
+    learningPaths,
+    socialMedia: {
+      twitter,
+      instagram,
+      github
+    }
+  }
+}
+
+// const os = createStudent({
+//   name: "oscar",
+//   email: "oscar@aguirre.com",
+//   age: 25,
+//   approvedCourses: ["courseOne"],
+//   learningPaths: undefined,
+//   socialMedia: {
+//     twitter: undefined,
+//     instagram: undefined,
+//     github: undefined
+//   },
+// });
+
