@@ -214,6 +214,39 @@ function createStudent({
 
 }
 
+// FUNCTION CREATE LEARNING PATHS
+function createLearningPath({
+  name = requiredParams("name"),
+  courses = []
+}) {
+  const private = {
+    "_name": name,
+    "_courses": courses
+  };
+
+  const public = {
+
+    get name() {
+      return private["_name"];
+    },
+
+    set name(newName) {
+      if (newName.length !== 0) {
+        private["_name"] = newName;
+      } else {
+        console.warn("your name must have at lasted one character");
+      }
+    },
+
+    get courses() {
+      return private["_courses"]
+    }
+
+  };
+  return public;
+  
+}
+
 // GETTERS AND SETTERS
 function createStudent({
   name = requiredParams(" name "),
@@ -228,7 +261,8 @@ function createStudent({
 
   const privateAttributes = {
     "_name": name,
-    "_email": email
+    "_email": email,
+    "_learningPaths": learningPaths
   };
 
   const publicAttributes = {
@@ -262,9 +296,35 @@ function createStudent({
       } else {
         console.warn("your name must have at least one character");
       }
+    },
+
+    get learningPaths() {
+      return privateAttributes["_learningPaths"];
+    },
+    set learningPaths(newLP) {
+      if (!newEmail.name) {
+        console.warn("your LP hasn't the property name");
+        return;
+      } 
+      
+      if (!newLP.courses) {
+        console.warn("your LP hasn't courses");
+        return;
+      }
+      
+      if (!isArray(newLP.courses)) {
+        console.warn("Tu LP has no array (*of courses)");
+        return;
+      }
+      
+      privateAttributes["_learningPaths"].push(newLP);
     }
   };
 
   return publicAttributes;
 
 }
+
+const juan = createStudent({email: "juan@juan.com", name: "Juan"})
+
+juan.learningPaths = "New learning path"
