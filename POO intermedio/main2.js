@@ -213,3 +213,58 @@ function createStudent({
   return publicAttributes;
 
 }
+
+// GETTERS AND SETTERS
+function createStudent({
+  name = requiredParams(" name "),
+  email = requiredParams(" email "),
+  age,
+  approvedCourses = [],
+  learningPaths = [],
+  twitter,
+  instagram,
+  github
+} = {}) {
+
+  const privateAttributes = {
+    "_name": name,
+    "_email": email
+  };
+
+  const publicAttributes = {
+    age,
+    approvedCourses,
+    learningPaths,
+    socialMedia: {
+      twitter,
+      instagram,
+      github
+    },
+
+    //METHODS
+    get name() {
+      return privateAttributes["_name"];
+    },
+    set name(newName) {
+      if (newName.length !== 0) {
+        privateAttributes["_name"] = newName;
+      } else {
+        console.warn("your name must have at least one character");
+      }
+    },
+
+    get email() {
+      return privateAttributes["_email"];
+    },
+    set email(newEmail) {
+      if (newEmail.length !== 0) {
+        privateAttributes["_email"] = newEmail;
+      } else {
+        console.warn("your name must have at least one character");
+      }
+    }
+  };
+
+  return publicAttributes;
+
+}
